@@ -16,7 +16,7 @@ import { TeamHomePage } from '../pages'
 })
 export class GamePage {
 
-  game: any;
+  game: any
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,

@@ -10,6 +10,9 @@
 
 </ion-header>
 <ion-content>
+  <!-- <ion-refresher (ionRefresh)="refreshAll($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
   <ion-card>
     <ion-card-content>
       <ion-row>
@@ -39,22 +42,27 @@
   </ion-card>
   <ion-list>
     <ion-item *ngFor="let game of games" (click)="gameClicked($event,game)">
-    <ion-row>
-      <ion-col col-xs-3>
-        <p>{{game.time|date:'M/d/yy'}}</p>
-        <p>{{game.time|date:'shortTime'}}</p>
-      </ion-col>
-      <ion-col col-xs-6>
-          <p>{{game.homeAway}}{{game.opponent}}</p>
-          <p>{{game.location}}</p>
-      </ion-col>
-      <ion-col col-xs-2>
-        <h4>{{game.scoreDisplay}}</h4>
-       <ion-badge [color]="getScoreDisplayBadgeClass(game)">
-         {{getScoreWorl(game)}}
-       </ion-badge>
-      </ion-col>
-    </ion-row>
+      <ion-grid>
+
+          <ion-row>
+              <ion-col col-3>
+                <p>{{game.time|date:'M/d/yy'}}</p>
+                <p>{{game.time|date:'shortTime'}}</p>
+              </ion-col>
+              <ion-col col-7>
+                  <p>{{game.homeAway}}{{game.opponent}}</p>
+                  <p>{{game.location}}</p>
+              </ion-col>
+              <ion-col col-2>
+                <h4>{{game.scoreDisplay}}</h4>
+               <ion-badge [color]="getScoreDisplayBadgeClass(game)">
+                 {{getScoreWorl(game)}}
+               </ion-badge>
+              </ion-col>
+            </ion-row>
+
+      </ion-grid>
+    
     </ion-item>
   </ion-list>
   <!-- <button ion-button (click)="goHome()">goHome</button> -->

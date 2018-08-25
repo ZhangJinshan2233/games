@@ -34,5 +34,7 @@ export class EliteApiProvider {
     
     return this.http.get(`${this.baseUrl}/tournaments-data/${tournamentId}.json`)
   }
-
+  refreshCurrentTournament(){
+    return this.getTournamentData(this.currentTournament.tournamentId)
+  }
 }

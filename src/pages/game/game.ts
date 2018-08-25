@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EliteApiProvider } from '../../providers/shared'
-import { TeamHomePage } from '../pages'
+import { TeamHomePage,MapPage } from '../pages'
+declare var window:any
 /**
  * Generated class for the GamePage page.
  *
@@ -30,6 +31,7 @@ export class GamePage {
 
   ionViewDidLoad() {
 
+    this.game.gameTime=Date.parse(this.game.time);
 
   }
 
@@ -40,5 +42,21 @@ export class GamePage {
    console.log(team)
     this.navCtrl.push(TeamHomePage, team);
   }
+
+  isWinner(score1,score2){
+    return Number(score1)>Number(score2)
+  }
+
+goToDirection(){
+
+  let tournamentData=this.eliteApi.currentTournament;
+  let location=tournamentData.locations[this.game.locationId];
+console.log(location)
+  window.location=`geo:${location.latitude},${location.longitude};u=35;`;
+}
+
+goToMap(){
+  this.navCtrl.push(MapPage,this.game)
+}
 
 }

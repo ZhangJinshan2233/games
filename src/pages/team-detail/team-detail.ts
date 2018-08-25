@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {AlertController,ToastController, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { EliteApiProvider } from '../../providers/shared';
+import { EliteApiProvider,UserSettingProvider } from '../../providers/shared';
 import { GamePage } from '../pages'
 import * as _ from 'lodash'
 import * as moment from 'moment' //don't need to use typing comment
@@ -36,13 +36,19 @@ export class TeamDetailPage {
 
     public alertCtrl:AlertController,
 
-    public toastCtrl:ToastController
+    public toastCtrl:ToastController,
+
+    public userSetting:UserSettingProvider,
+
+
   ) {
 
     this.originalGames = this.eliteApi.currentTournament.games;
     this.team = this.navParams.data
+    
+    this.teamStanding=_.find( this.eliteApi.currentTournament.standings,{'teamId':this.team.id}) 
+    
    
-    this.teamStanding=_.find( this.eliteApi.currentTournament.standings,{'teamId':this.team.id})  
   }
 
   ionViewDidLoad() {
@@ -64,7 +70,8 @@ export class TeamDetailPage {
       })
       .value();
       this.allFilterGames=this.games;
-      console.log( this.teamStanding)
+      this.userSetting.isFavoriteTeam(this.team.id).then(value=>this.isFollowing=value)
+
     }
 
   getScoreDisplay(isTeam1, team1Score, team2Score) {
@@ -79,10 +86,6 @@ export class TeamDetailPage {
 
 
   }
-
-
-
-
   gameClicked($event, game) {
 
     let sourceGame = this.originalGames.find(g => g.id === game.gameId)
@@ -119,7 +122,7 @@ export class TeamDetailPage {
             text:'Yes',
             handler:()=>{
               this.isFollowing=false;
-              //Todo
+              this.userSetting.unFavoriteTeam(this.team)
 
               let toast=this.toastCtrl.create({
                 message:"you have unfollowed this team",
@@ -140,7 +143,18 @@ export class TeamDetailPage {
       })
     }else{
       this.isFollowing=true;
+      this.userSetting.favoriteTeam(this.team,this.eliteApi.currentTournament.tournament.id,this.eliteApi.currentTournament.tournament.name)
     }
+  }
+
+  refreshAll(refresher){
+
+    this.eliteApi.refreshCurrentTournament().subscribe(()=>{
+      
+      refresher.complete();
+
+      this.ionViewDidLoad()
+    })
   }
   // goHome(){
   //  // this.navCtrl.popToRoot() *** can not work because it's will navigage to team home 

@@ -1,0 +1,28 @@
+<!--
+  Generated template for the MapPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>map</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-fab left bottom>
+      <button ion-fab class="fab-map" (click)="getDirections()">
+          <ion-icon name="navigate"></ion-icon>
+      </button>
+  </ion-fab>
+ 
+    <agm-map id="map"[latitude]="map.lat" [longitude]="map.lng">
+        <agm-marker [latitude]="map.lat" [longitude]="map.lng">
+            <agm-info-window>{{map.markerLabel}}</agm-info-window>
+        </agm-marker>
+      </agm-map>
+</ion-content>

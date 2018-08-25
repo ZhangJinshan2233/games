@@ -3,9 +3,10 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { FormsModule } from '@angular/forms';
 import { MyApp } from './app.component';
-
+import { IonicStorageModule } from '@ionic/storage';
+import {AgmCoreModule} from "@agm/core"
 import { EliteApiProvider } from '../providers/elite-api/elite-api';
 import{MyTeamsPage,
     TournamentsPage,
@@ -13,9 +14,11 @@ import{MyTeamsPage,
     TeamsPage,
     GamePage,
     StandingPage,
-    TeamHomePage
+    TeamHomePage,
+    MapPage
   }from '../pages/pages'
 import { HttpClientModule } from '@angular/common/http';
+import { UserSettingProvider } from '../providers/user-setting/user-setting';
 
 @NgModule({
   declarations: [
@@ -26,11 +29,20 @@ import { HttpClientModule } from '@angular/common/http';
     TeamsPage,
     GamePage,
     StandingPage,
-    TeamHomePage
+    TeamHomePage,
+    MapPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    AgmCoreModule.forRoot({
+      apiKey:'api-key'
+    }),
+    IonicStorageModule.forRoot({
+      name: 'mydb',
+      driverOrder: ['localstorage']
+    }),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -42,13 +54,15 @@ import { HttpClientModule } from '@angular/common/http';
     TeamsPage,
     GamePage,
     StandingPage,
-    TeamHomePage
+    TeamHomePage,
+    MapPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    EliteApiProvider
+    EliteApiProvider,
+    UserSettingProvider
   ]
 })
 export class AppModule {}

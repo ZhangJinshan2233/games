@@ -15,7 +15,8 @@ import * as _ from "lodash"
   templateUrl: 'standing.html',
 })
 export class StandingPage {
-
+  divisionFilter='division';
+  divisionFilter1='all';
   standings:any;
   team:any;
   allStandings:any
@@ -29,15 +30,32 @@ export class StandingPage {
     this.standings = this.eliteApi.currentTournament.standings;
     this.team = this.navParams.data
    
-   this.allStandings=
-   _.chain(this.standings)
-   .groupBy('division')
-   .toPairs()
-   .map(item=>_.zipObject(['divisionName','divisionStandings'],item))
-   .value()
+  //  this.allStandings=
+  //  _.chain(this.standings)
+  //  .groupBy('division')
+  //  .toPairs()
+  //  .map(item=>_.zipObject(['divisionName','divisionStandings'],item))
+  //  .value()
 
-   console.log( this.standings)
-   console.log( this.allStandings)
+  this.allStandings=this.eliteApi.currentTournament.standings;
+  this.filterDivision(event);
+  }
+  getHeader(record, recordIndex, records) {
+    if (recordIndex=== 0||record.division!==records[recordIndex-1].division) {
+      return record.division;
+    }
+    return null;
   }
 
+  filterDivision(event){
+   
+      this.standings=_.filter(this.allStandings,s=>s.division===this.team.division)
+     
+  }
+
+  filterDivision1(event){
+
+      this.standings=this.allStandings
+ 
+  }
 }

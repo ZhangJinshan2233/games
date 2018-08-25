@@ -11,3 +11,5 @@ export * from './tournaments/tournaments';
 export * from './standing/standing';
 
 export * from './team-home/team-home';
+
+export * from './map/map';
